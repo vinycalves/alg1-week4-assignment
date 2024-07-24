@@ -1,15 +1,12 @@
-#include <cmath>
 #include <iostream>
 #include <map>
 #include <unordered_set>
 
 using namespace std;
 
-bool is_a_valid_number(const double number)
+bool is_a_valid_number(int number)
 {
-    if (number < 1 || number > 100000)
-        return false;
-    return true;
+    return number >= 1 && number <= 100000;
 }
 
 int main()
@@ -19,32 +16,30 @@ int main()
 
     if (!is_a_valid_number(N))
     {
-        cerr << "This number should be between 1 and 100.000" << endl;
+        cerr << "This number should be between 1 and 100000" << endl;
         return 1;
     }
 
     unordered_set<int> coins = {1, 2, 5};
     unordered_set<int> notes = {10, 20, 50, 100, 200};
 
-    map<string, int> total_back;
+    map<string, int> total_back = {{"notes", 0}, {"coins", 0}};
 
-    for (const auto note : notes)
+    for (const auto &note : notes)
     {
-        double value_divided = fdiv(N, note);
-        if (value_divided >= 1)
+        if (N >= note)
         {
-            total_back["notes"] += fabs(value_divided);
-            N = fmod(N, note);
+            total_back["notes"] += N / note;
+            N %= note;
         }
     }
 
-    for (const auto coin : coins)
+    for (const auto &coin : coins)
     {
-        double value_divided = fdiv(N, coin);
-        if (value_divided >= 1)
+        if (N >= coin)
         {
-            total_back["coins"] += fabs(value_divided);
-            N = fmod(N, coin);
+            total_back["coins"] += N / coin;
+            N %= coin;
         }
     }
 

@@ -1,6 +1,6 @@
 #include <iostream>
+#include <list>
 #include <map>
-#include <unordered_set>
 
 using namespace std;
 
@@ -18,7 +18,7 @@ int main()
     }
 
     // Define sets of available coins and notes
-    const unordered_set<int> coins_and_notes{1, 2, 5, 10, 20, 50, 100, 200};
+    const list<int> coins_and_notes{200, 100, 50, 20, 10, 5, 2, 1};
 
     // Map to store the count of notes and coins needed
     map<string, int> total_back = {{"notes", 0}, {"coins", 0}};
@@ -29,6 +29,7 @@ int main()
         if (N >= c_n)
         {
             total_back[c_n >= 10 ? "notes" : "coins"] += N / c_n; // Add the number of notes and coins of this denomination
+            // cout << (c_n >= 10 ? "note" : "coin") << ": " << c_n << " * " << N / c_n << endl; // Uncoment this to know what's the value of the money
             N %= c_n; // Update N to the remaining amount
         }
     }
